@@ -1,0 +1,97 @@
+<!--
+title: 【入門】Convex × Next.jsでリアルタイムWebアプリを構築する
+category: プログラミング, Next.js, Convex
+date: 2026-02-15
+draft: false
+-->
+
+最近話題の<b>BaaS（Backend as a Service）</b> の一つ、<b>Convex</b>を使ってリアルタイムWebアプリを構築してみました。Next.jsと組み合わせることで、驚くほど少ないコードでリアルタイム同期が実現できたので、その手順をまとめます。
+
+[:contents]
+
+*Convexとは
+
+<b>Convex</b>は、リアルタイムデータベースとサーバーレス関数を統合したBaaSです。従来のFirebaseに似ていますが、以下の特徴が際立っています：
+
+-<b>TypeScriptファースト</b>: スキーマからAPIまですべてTypeScriptで完結
+-<b>リアルタイム同期</b>: データの変更が自動的にクライアントに反映
+-<b>トランザクション保証</b>: ACIDトランザクションをサポート
+
+*環境構築
+
+この記事で使用する環境は以下のとおりです。
+
+|*項目|*バージョン|
+|Node.js|20.x|
+|Next.js|15.x|
+|Convex|1.x|
+
+**プロジェクトの作成
+
+まず、Next.jsプロジェクトを作成し、Convexをセットアップします。
+
+>|bash|
+npx create-next-app@latest my-convex-app
+cd my-convex-app
+npm install convex
+npx convex dev
+||<
+
+*基本的な使い方
+
+**スキーマの定義
+
+Convexでは、<code>convex/schema.ts</code> でデータベーススキーマを定義します。
+
+>|typescript|
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+
+export default defineSchema({
+  tasks: defineTable({
+    title: v.string(),
+    completed: v.boolean(),
+    createdAt: v.number(),
+  }),
+});
+||<
+
+**クエリの作成
+
+データ取得はクエリ関数として定義します。
+
+>|typescript|
+import { query } from "./_generated/server";
+
+export const getTasks = query({
+  handler: async (ctx) => {
+    return await ctx.db.query("tasks").order("desc").collect();
+  },
+});
+||<
+
+*ハマりやすいポイント
+
+実際に開発してみて、以下の点で少しハマりました：
+
++<b>環境変数の設定</b>: <code>CONVEX_DEPLOYMENT</code> と <code>NEXT_PUBLIC_CONVEX_URL</code> の両方が必要
++<b>Server Componentsでの制約</b>: Convexのリアルタイムフックはクライアントコンポーネントでのみ使用可能
+
+>>
+公式ドキュメントにも記載がありますが、見落としやすいポイントです。
+<<
+
+*まとめ
+
+今回のポイントを振り返ります：
+
+-<b>Convex</b>はTypeScriptファーストのBaaSで、リアルタイム同期が簡単に実現できる
+-<b>Next.js</b>との統合がスムーズで、少ないコードで本格的なアプリが構築可能
+-スキーマ定義からクエリまで、<b>型安全</b>に開発できるのが大きなメリット
+
+次回は、認証機能の追加やデプロイ方法について解説する予定です。
+
+*参考リンク
+
+-[https://docs.convex.dev/:title]
+-[https://nextjs.org/docs:title]

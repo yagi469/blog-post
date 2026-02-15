@@ -1,0 +1,56 @@
+<!--
+title: {{TITLE}}
+category: {{CATEGORIES}}
+date: {{DATE}}
+draft: true
+-->
+
+{{LEAD_TEXT}}
+
+[:contents]
+
+*{{SUBJECT}}の概要
+
+{{OVERVIEW}}
+
+**主な特徴
+
+-<b>{{FEATURE_1}}</b>: {{FEATURE_1_DESC}}
+-<b>{{FEATURE_2}}</b>: {{FEATURE_2_DESC}}
+-<b>{{FEATURE_3}}</b>: {{FEATURE_3_DESC}}
+
+*実際に使ってみた
+
+**導入方法
+
+{{SETUP_INSTRUCTIONS}}
+
+**使用感
+
+{{USAGE_EXPERIENCE}}
+
+*良かった点
+
+{{PROS}}
+
+*気になった点
+
+{{CONS}}
+
+*他の選択肢との比較
+
+|*項目|*{{SUBJECT}}|*{{ALTERNATIVE_1}}|*{{ALTERNATIVE_2}}|
+|{{CRITERIA_1}}|{{EVAL_1}}|{{EVAL_2}}|{{EVAL_3}}|
+|{{CRITERIA_2}}|{{EVAL_4}}|{{EVAL_5}}|{{EVAL_6}}|
+
+*こんな人におすすめ
+
+{{RECOMMENDATION}}
+
+*まとめ
+
+{{SUMMARY}}
+
+*参考リンク
+
+{{REFERENCES}}

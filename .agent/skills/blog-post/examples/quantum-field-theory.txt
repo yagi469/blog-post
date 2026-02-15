@@ -1,0 +1,86 @@
+<div class="freezed">
+<div class="hatena-asin-detail"><a href="https://www.amazon.co.jp/dp/4785325127?tag=kK24482456-22&amp;linkCode=osi&amp;th=1&amp;psc=1" class="hatena-asin-detail-image-link" target="_blank" rel="noopener"><img src="https://m.media-amazon.com/images/I/41XVBezY2-L._SL500_.jpg" class="hatena-asin-detail-image" alt="場の量子論(II)-ファインマン・グラフとくりこみを中心にして- (量子力学選書)" title="場の量子論(II)-ファインマン・グラフとくりこみを中心にして- (量子力学選書)" /></a>
+<div class="hatena-asin-detail-info">
+<p class="hatena-asin-detail-title"><a href="https://www.amazon.co.jp/dp/4785325127?tag=kK24482456-22&amp;linkCode=osi&amp;th=1&amp;psc=1" target="_blank" rel="noopener">場の量子論(II)-ファインマン・グラフとくりこみを中心にして- (量子力学選書)</a></p>
+<ul class="hatena-asin-detail-meta">
+<li><span class="hatena-asin-detail-label">作者:</span><a href="http://d.hatena.ne.jp/keyword/%BA%E4%CB%DC%20%E2%C3%BF%CD" class="keyword">坂本 眞人</a></li>
+<li>裳華房</li>
+</ul>
+<a href="https://www.amazon.co.jp/dp/4785325127?tag=kK24482456-22&amp;linkCode=osi&amp;th=1&amp;psc=1" class="asin-detail-buy" target="_blank" rel="noopener">Amazon</a></div>
+</div>
+</div>
+<p>[rakuten:book:20093773:detail]</p>
+<p>目次</p>
+[:contents]
+<p><a href="https://px.a8.net/svt/ejp?a8mat=3T01CH+4ZSXGY+3CJQ+601S1" rel="nofollow"> <img border="0" width="300" height="250" alt="" src="https://www23.a8.net/svt/bgt?aid=230109137302&amp;wid=001&amp;eno=01&amp;mid=s00000015623001008000&amp;mc=1" /></a> <img border="0" width="1" height="1" src="https://www15.a8.net/0.gif?a8mat=3T01CH+4ZSXGY+3CJQ+601S1" alt="" /></p>
+<p>次節で対称性の自発的破れの指標を与える。そこでは保存量が中心的役割を果たす。次節の準備として、この節では保存量のもつもう1つの役割―無限小変換の生成子―について議論する。</p>
+<p> </p>
+<h3>14.3.1 無限小変換の生成子としての保存量</h3>
+<p>無限小変換</p>
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \phi(x)\to\phi^\prime(x)=\phi(x)+\varepsilon\delta_Q\phi(x) \tag{14.5}]</div>
+<p>のもとで作用積分が不変とする。ここで[tex: \varepsilon]は無限小パラメータである。このとき、ネーターの定理から保存量[tex: Q(\textrm dQ/\textrm dt=0)]が存在し、ハイゼンベルグ方程式を用いると次式が成り立つ。</p>
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \frac{dQ}{dt}=i\[H, Q\]=0 \tag{14.6}]</div>
+<p>ここで[tex: H]はハミルトニアンである。</p>
+<p> </p>
+<p>保存量[tex: Q]は、もう1つの重要な役割を担う。それは[tex: Q]が無限小変換（14.5）の生成子、すなわち、関係</p>
+<div class="horizontal-scroll" align="center">[tex: \delta_Q\phi(x)=i\[Q, \phi(x)\] \tag{14.7}]</div>
+<p>を満たすことである。</p>
+<p> </p>
+<p>&lt;<strong>check 14.2</strong>&gt;</p>
+<p>交換関係[tex: \[Q, H\]=0]は、[tex: Q]が保存量（[tex: \textrm dQ/\textrm dt=0]）であることを意味するが、（14.7）の関係からもう1つ別の意味をもつ。[tex: \[Q, H\]=0]のもう1つの物理的意味を説明してみよう。</p>
+<p>【ヒント】（14.7）から、[tex: \delta_QH=i\[Q, H\]]と書き表すことができる。</p>
+<p> </p>
+<p>（14.7）は無限小変換に対応するが、（[tex: Q]がエルミート演算子の場合）<strong>有限変換は次のユニタリー変換で与えられる。</strong></p>
+<div class="horizontal-scroll" align="center">[tex: \phi'(x)=e^{i\varepsilon Q}\phi(x)e^{-i\varepsilon Q} \tag{14.8}]</div>
+<p>ここで、[tex: \varepsilon]は有限の実パラメータとしてよい。[tex: \varepsilon]を無限小に取れば、（14.8）は（14.7）に帰着する。</p>
+<p> </p>
+<p>保存量の具体例を見るために、無限小時空並進（[tex: x^\mu\to x^\mu+\varepsilon^\mu]）</p>
+<div class="horizontal-scroll" align="center">[tex: \phi(x)\to\phi'(x)\equiv\phi(x+\varepsilon)=\phi(x)+\varepsilon_\mu\partial^\mu\phi(x) \tag{14.9}]</div>
+<p>を考えてみよう。時空並進対称性のもとでの保存量はエネルギー運動量[tex: P^\mu]である。(14.5)と(14.9)を見比べると、[tex: \delta_P\phi(x)=\partial^\mu\phi(x)]の関係が成り立つ。したがって、(14.7)から[tex: P^\mu]は</p>
+<div class="horizontal-scroll" align="center">[tex: \partial^\mu\phi(x)=i\[P^\mu, \phi(x)\] \tag{14.10}]</div>
+<p>を満たす。この関係をユニタリー変換(14.8)を使って表すと</p>
+<div class="horizontal-scroll" align="center">[tex: e^{i\varepsilon\cdot P}\phi(x)e^{-i\varepsilon\cdot P}=\phi(x+\varepsilon) \tag{14.11}]</div>
+<p>となる。ここで(14.11)は、有限の[tex: \varepsilon^\mu]に対して成り立つことに注意しておく。</p>
+<p> </p>
+<p>&lt;<strong>check 14.3</strong>&gt;</p>
+<p>有限変換(14.11)を無限小変換の繰り返しによって導くことができる。次の(14.12)の各行の式の意味を説明してみよう。</p>
+<div class="horizontal-scroll" align="center">[tex: \begin{eqnarray}e^{i\varepsilon\cdot P}\phi(x)e^{-i\varepsilon\cdot P}&=&(e^{i\Delta\varepsilon\cdot P})^N\phi(x)(e^{-i\Delta\varepsilon\cdot P})^N \quad \left(\Delta\varepsilon_\mu\equiv\frac{\varepsilon_\mu}{N}\right) \\ 
+&=&\displaystyle\lim_{N\to\infty}(e^{i\Delta\varepsilon\cdot P})^{N-1}\underbrace{e^{i\Delta\varepsilon\cdot P}\phi(x)e^{-i\Delta\varepsilon\cdot P}}_{\phi(x+\Delta\varepsilon)}(e^{-i\Delta\varepsilon\cdot P})^{N-1} \\
+&=&\displaystyle\lim_{N\to\infty}(e^{i\Delta\varepsilon\cdot P})^{N-2}\underbrace{e^{i\Delta\varepsilon\cdot P}\phi(x+\Delta\varepsilon)e^{-i\Delta\varepsilon\cdot P}}_{\phi(x+2\Delta\varepsilon)}(e^{-i\Delta\varepsilon\cdot P})^{N-2} \\
+&=&\displaystyle\lim_{N\to\infty}\phi(x+\underbrace{N\Delta\varepsilon}_{\varepsilon}) \\
+&=&\phi(x+\varepsilon)\tag{14.12} \end{eqnarray}]</div>
+
+
+次に、ローレンツ変換
+<div class="horizontal-scroll" align="center">[tex: x^\mu\to x'^\mu={\Lambda^\mu}_\nu x^\nu\quad(ただし、x'_\mu x'^\mu=x_\mu x^\mu)\tag{14.13} ]</div>
+のもとでの不変性を考える。無限小変換の場合は[tex: {\Lambda^\mu}_\nu={\delta^\mu}_\nu+{\omega^\mu}_\nu]とおくと、無限小パラメータ[tex: \omega_{\mu\nu}\equiv\eta_{\mu\rho}{\omega^\rho}_\nu]には、[tex: \mu\nu]の添え字に関して反対称の条件
+<div class="horizontal-scroll" align="center">[tex: \omega_{\mu\nu}=-\omega_{\nu\mu}\tag{14.14} ]</div>
+がつく。（<<strong>check 14.4</strong>>参照。）この時の保存量[tex: J^{\mu\nu}(=-J^{\nu\mu})]は、無限小ローレンツ変換の生成子で、[tex: J^{ij}(i, j=1,2,3)]は[tex: ij]平面内の角運動量演算子、[tex: J^{0j}]は[tex: j]方向のブースト演算子である。
+
+
+[tex: \phi(x), \psi^a(x), A^\rho(x)]をスカラー、スピノル、ベクトル場としておく。ここで、[tex: a]はスピノルの添字[tex: (a = 1,2,3,4)]、[tex: \rho]はベクトルの添字[tex: (\rho = 0,1,2,3)]である。それぞれの場に対するローレンツ変換性は
+<div class="horizontal-scroll" align="center">[tex: \left.\begin{align}
+&e^{(i/2)\omega\cdot J}\phi(0)e^{-(i/2)\omega\cdot J} = \phi(0) \\
+&e^{(i/2)\omega\cdot J}\psi^a(0)e^{-(i/2)\omega\cdot J} = {S(\omega)^a}_b\psi^b(0) \\
+&e^{(i/2)\omega\cdot J}A^\rho(0)e^{-(i/2)\omega\cdot J} = {\Lambda(\omega)^\rho}_\lambda A^\lambda(0)
+\end{align}\right\}\tag{14.15}]</div>
+で与えられる。ここで、[tex: {S(\omega)^a}_b, {\Lambda(\omega)^\rho}_\lambda]はスピノルおよびベクトルに対するローレンツ変換のパラメータである。
+
+
+無限小変換の場合、
+<div class="horizontal-scroll" align="center">[tex: \left.\begin{align}
+&{S(\omega)^a}_b={(I_4)^a}_b-\frac{i}{4}\omega_{\mu\nu}{(\sigma^{\mu\nu})^a}_b \quad \left(\sigma^{\mu\nu}\equiv\frac{i}{2}\[\gamma^\mu, \gamma^\nu\]\right)\\
+&{\Lambda(\omega)^\rho}_\lambda = {\delta^\rho}_\lambda+{\omega^\rho}_\lambda
+\end{align}\right\}\tag{14.16}]</div>
+で与えられる。(14.11)および(14.15)の変換性は、場の真空期待値に対して強い制限を与えることが後の14.3.3項で明らかになる。
+
+<p> </p>
+<<strong>check 14.4</strong>>
+無限小ローレンツ変換[tex: ({\Lambda^\mu}_\nu={\delta^\mu}_\nu+{\omega^\mu}_\nu)]の場合、[tex: x'_\mu x'^\mu = x_\mu x^\mu]の条件から(14.14)を導いてみよう。また、[tex: \phi(0), \psi^a(0), A^\rho(0)]と[tex: J^{\mu\nu}]との交換関係は、(14.15)と(14.16)を使って
+<div class="horizontal-scroll" align="center">[tex: \left.\begin{align}
+& \[J^{\mu\nu}, \phi(0)\] = 0 \\
+& \[J^{\mu\nu}, \psi^a(0)\] = -\frac{1}{2}{(\sigma^{\mu\nu})^a}_b\psi^b(0) \\
+& \[J^{\mu\nu}, A^\rho(0)\] = -i\{\eta^{\mu\rho}A^\nu(0) - \eta^{\nu\rho}A^\mu(0)\}
+\end{align}\right\}\tag{14.17}]</div>
+で与えられることを説明してみよう。
+【ヒント】(14.15)で[tex: \omega_{\mu\nu}]が無限小の場合を考えればよい。
