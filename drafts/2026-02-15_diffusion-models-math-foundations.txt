@@ -1,0 +1,218 @@
+<!--
+title: 拡散モデルの数学的原理：KLダイバージェンスからスコアマッチングへ
+category: 機械学習, 数理物理
+date: 2026-02-15
+draft: true
+source: The Principles of Diffusion Models (arXiv)
+-->
+
+拡散モデル（Diffusion Model）は画像生成AIの中核を担う技術であり、その数学的基盤は統計力学と深い関係を持つ。本記事では、論文 "The Principles of Diffusion Models" に基づき、KLダイバージェンスによる学習理論からエネルギーベースモデル（EBM）、スコア関数、ランジュバン動力学に至るまで、拡散モデルの数理的基礎を物理学の視点から一貫して解説する。
+
+[:contents]
+
+*深層生成モデリングの数学的設定
+
+深層生成モデリング（Deep Generative Modeling, DGM）の目標は、未知の複雑なデータ分布 [tex: p_{\text{data}}(x)] から独立同一分布（i.i.d.）で抽出された有限のサンプルを用いて、扱いやすい確率分布を学習することである(( これは機械学習における一般的な仮定である。簡単のため、記号 [tex: p] は文脈に応じて確率分布またはその確率密度関数のいずれかを表す。 ))。
+
+[tex: p_{\text{data}}(x)] の関数形が未知であるため、そこから直接新しいサンプルを抽出することはできない。そこでDGMは深層ニューラルネットワークを使ってモデル分布 [tex: p_\phi(x)] をパラメータ化する。ここで [tex: \phi] はネットワークの学習可能なパラメータである。学習の目的は、モデル分布とデータ分布の間の乖離度を最小化する最適パラメータ [tex: \phi^*] を見つけることである：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle p_{\phi^*}(x) \approx p_{\text{data}}(x)]</div>
+
+統計モデル [tex: p_{\phi^*}(x)] がデータ分布を密接に近似するとき、[tex: p_\phi(x)] からのモンテカルロサンプリングによって任意の数の新しいデータ点を生成できる。このモデル [tex: p_\phi(x)] を<b>生成モデル</b>と呼ぶ。
+
+**KLダイバージェンスと最尤推定
+
+モデル族 [tex: \{p_\phi\}] のパラメータ [tex: \phi] は、乖離度 [tex: \mathcal{D}(p_{\text{data}}, p_\phi)] を最小化することで学習される：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \phi^* \in \arg \min_\phi \mathcal{D}(p_{\text{data}}, p_\phi) \tag{1}]</div>
+
+[tex: p_{\text{data}}] が未知であるため、[tex: \mathcal{D}] の実用的な選択は、[tex: p_{\text{data}}] からのi.i.d.サンプルによる効率的な推定を許容するものでなければならない。標準的な選択は<b>（順方向）カルバック・ライブラー・ダイバージェンス</b>（KLダイバージェンス）である(( すべての積分はルベーグの意味であり、計数測度のもとでは和に帰着する。 ))：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \begin{aligned} \mathcal{D}_{KL}(p_{\text{data}} \| p_\phi) &:= \int p_{\text{data}}(x) \log \frac{p_{\text{data}}(x)}{p_\phi(x)} \, dx \\ &= \mathbb{E}_{x \sim p_{\text{data}}} \lbrack \log p_{\text{data}}(x) - \log p_\phi(x) \rbrack \end{aligned}]</div>
+
+KLダイバージェンスは非対称（[tex: \mathcal{D}_{KL}(p_{\text{data}} \| p_\phi) \neq \mathcal{D}_{KL}(p_\phi \| p_{\text{data}})]）であることに注意されたい。重要な性質として、[tex: \mathcal{D}_{KL}(p_{\text{data}} \| p_\phi)] の最小化は<b>モードカバリング（mode covering）</b>を促進する。すなわち、[tex: p_{\text{data}}(A) > 0] だが [tex: p_\phi(x) = 0]（[tex: x \in A]）となる集合 [tex: A] が存在すると、[tex: \mathcal{D}_{KL} = +\infty] となるため、データがサポートを持つすべての場所にモデルが確率を割り当てることが強制される。
+
+データ密度 [tex: p_{\text{data}}(x)] を明示的に評価できないが、KLダイバージェンスは次のように分解できる：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \mathcal{D}_{KL}(p_{\text{data}} \| p_\phi) = -\mathbb{E}_{x \sim p_{\text{data}}} \lbrack \log p_\phi(x) \rbrack + \mathcal{H}(p_{\text{data}})]</div>
+
+ここで [tex: \mathcal{H}(p_{\text{data}}) := -\mathbb{E}_{x \sim p_{\text{data}}} \lbrack \log p_{\text{data}}(x) \rbrack] はデータ分布のエントロピーであり、[tex: \phi] に関して定数である。この観察から次の基本的な同値性が導かれる。
+
+<b>補題（KL最小化 ⟺ MLE）：</b>L
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \min_\phi \mathcal{D}_{KL}(p_{\text{data}} \| p_\phi) \iff \max_\phi \mathbb{E}_{x \sim p_{\text{data}}} \lbrack \log p_\phi(x) \rbrack \tag{2}]</div>
+
+すなわち、<b>順方向KLダイバージェンスの最小化は最尤推定（MLE）の実行と等価である</b>。これは統計学と情報理論を橋渡しする基本的な関係式であり、多くの深層生成モデルの学習理論的基盤となっている。
+
+実際には、母集団の期待値をi.i.d.サンプル [tex: \{x^{(i)}\}_{i=1}^N \sim p_{\text{data}}] からのモンテカルロ推定に置き換え、経験的MLE目的関数を得る：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \hat{\mathcal{L}}_{\text{MLE}}(\phi) := -\frac{1}{N} \sum_{i=1}^N \log p_\phi(x^{(i)})]</div>
+
+これはミニバッチ上の確率的勾配法によって最適化される。
+
+**フィッシャー・ダイバージェンスとスコア関数
+
+拡散モデルの理解において重要なもう一つの概念が<b>フィッシャー・ダイバージェンス</b>である。2つの分布 [tex: p] と [tex: q] に対して次のように定義される：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \mathcal{D}_F(p \| q) := \mathbb{E}_{x \sim p} \left\lbrack \| \nabla_x \log p(x) - \nabla_x \log q(x) \|_2^2 \right\rbrack \tag{3}]</div>
+
+ここで [tex: \nabla_x \log p(x)] は<b>スコア関数</b>と呼ばれるベクトル場であり、確率密度がより高い領域を指す方向を表す。物理学の言語で言えば、[tex: -\log p(x)] をポテンシャルとみなしたときの力場に対応する。
+
+スコア関数の決定的に重要な性質は、対数密度の勾配にのみ依存するため<b>正規化定数に対して不変</b>であることだ。この性質が、後に見る<b>スコアマッチング</b>の基礎を形成する。すなわち、[tex: \mathcal{D}_F(p \| q) \ge 0] であり、ほとんどいたるところで [tex: p = q] の場合にのみ等号が成立する。
+
+*エネルギーベースモデル（EBM）
+
+**エネルギー関数によるボルツマン分布
+
+統計力学に馴染みのある読者にとって、エネルギーベースモデル（EBM）は最も自然な生成モデルの定式化であろう。データ点 [tex: x \in \mathbb{R}^D] に対して、EBMはエネルギー関数 [tex: E_\phi(x)] を用いて確率密度を定義する：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle p_\phi(x) := \frac{\exp(-E_\phi(x))}{Z_\phi}, \quad Z_\phi := \int_{\mathbb{R}^D} \exp(-E_\phi(x)) \, dx \tag{4}]</div>
+
+ここで [tex: Z_\phi] は<b>分配関数</b>（partition function）であり、正規化を保証する。これはまさに統計力学におけるカノニカル分布（ボルツマン分布）の形をしている（逆温度 [tex: \beta = 1] の場合に相当する）。
+
+物理学的直感として：
+-エネルギーが低い点はより高い確率を持つ（ボールが谷に転がり落ちるイメージ）
+-分配関数がすべての確率の和を1に保証するため、エネルギーの<b>相対値</b>のみが意味を持つ
+-ある領域のエネルギーを下げれば確率は増加するが、他の領域の確率は減少する——これはEBMの<b>大域的トレードオフ</b>
+
+**分配関数の計算不可能性
+
+原理的にはEBMは最尤法で学習可能であるが、対数尤度の計算には分配関数の評価が必要となる：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \begin{aligned} \mathcal{L}_{\text{MLE}}(\phi) &= \mathbb{E}_{p_{\text{data}}(x)} \left\lbrack \log \frac{\exp(-E_\phi(x))}{Z_\phi} \right\rbrack \\ &= -\underbrace{\mathbb{E}_{p_{\text{data}}} \lbrack E_\phi(x) \rbrack}_{\text{データのエネルギーを下げる}} - \underbrace{\log \int \exp(-E_\phi(x)) \, dx}_{\text{大域的正則化}} \end{aligned} \tag{5}]</div>
+
+第1項はデータ点のエネルギーを下げ、第2項は分配関数を通じて正規化を強制する。しかし、高次元において [tex: \log Z_\phi] とその勾配の計算は<b>扱いにくい</b>（intractable）。モデル分布のもとでの期待値をモンテカルロ推定する必要があり、これは [tex: \mathbb{R}^D] 全体にわたるサンプリングを要求する。
+
+この困難を回避するために、<b>コントラスティブ・ダイバージェンス</b>（Hinton, 2002）のような近似手法や、分配関数を完全に回避する<b>スコアマッチング</b>が発展してきた。
+
+*スコア関数とは何か
+
+**定義と直感
+
+密度 [tex: p(x)]（[tex: x \in \mathbb{R}^D]）の<b>スコア関数</b>は、対数密度の勾配として定義される：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle s(x) := \nabla_x \log p(x), \quad s : \mathbb{R}^D \to \mathbb{R}^D \tag{6}]</div>
+
+スコア関数は確率密度がより高い領域を指すベクトル場を形成する。物理学的に言えば、[tex: -\log p(x)] をポテンシャルエネルギーとみなしたときの「力の方向」を示す。
+
+**スコアを直接モデル化する利点
+
+スコア関数をモデル化することには、理論的にも実用的にも2つの大きな利点がある。
+
+***正規化定数からの解放
+
+多くの分布は正規化されていない密度 [tex: \tilde{p}(x)]——たとえばEBMにおける [tex: \exp(-E_\phi(x))]——でしか定義されない。分配関数 [tex: Z] の計算は一般に困難であるが、スコアは [tex: \tilde{p}] のみに依存する：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \nabla_x \log p(x) = \nabla_x \log \tilde{p}(x) - \underbrace{\nabla_x \log Z}_{=0} = \nabla_x \log \tilde{p}(x) \tag{7}]</div>
+
+[tex: Z] は [tex: x] に関して定数であるため、その勾配はゼロになる。これにより<b>分配関数を完全に回避</b>できる。場の理論の言葉で言えば、分配関数は「観測量に寄与しない全体因子」として消去されるのと同じ精神である。
+
+***完全な表現能力
+
+スコア関数は基底分布を完全に特徴付ける。対数密度の勾配であるため、密度は（定数を除いて）線積分により復元可能である：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \log p(x) = \log p(x_0) + \int_0^1 s(x_0 + t(x - x_0))^\top (x - x_0) \, dt]</div>
+
+ここで [tex: x_0] は参照点であり、[tex: \log p(x_0)] は正規化で固定される。したがって、スコアのモデル化は [tex: p(x)] そのもののモデル化と同等の表現力を持ちながら、生成モデリングにおいてはより扱いやすい。
+
+*スコアマッチング
+
+**EBMからスコアベースモデルへ
+
+EBMにおいて、ランジュバン動力学によるサンプリングにはスコア関数のみが必要であった。そして式(7)で見たように、スコアは分配関数に依存しない。であれば、エネルギー関数を介さずにスコア関数を<b>ニューラルネットワーク</b> [tex: s_\phi(x)] で直接近似すればよい——これがスコアベース生成モデルの核心的アイデアである：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle s_\phi(x) \approx \nabla_x \log p_{\text{data}}(x)]</div>
+
+**スコアマッチングの目的関数
+
+<b>スコアマッチング</b>（Hyvärinen and Dayan, 2005）は、真のスコアと推定スコアの平均二乗誤差を最小化する：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \mathcal{L}_{\text{SM}}(\phi) := \frac{1}{2} \mathbb{E}_{x \sim p_{\text{data}}} \left\lbrack \| s_\phi(x) - \nabla_x \log p_{\text{data}}(x) \|_2^2 \right\rbrack \tag{8}]</div>
+
+**Hyvärinen の扱いやすい形式
+
+一見すると式(8)は、真のスコア [tex: \nabla_x \log p_{\text{data}}(x)] が未知であるため計算不可能に見える。しかし、Hyvärinen and Dayan (2005) は<b>部分積分</b>を用いて、真のスコアへのアクセスなしにデータサンプルのみで計算可能な等価な目的関数を導出した：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \tilde{\mathcal{L}}_{\text{SM}}(\phi) = \mathbb{E}_{x \sim p_{\text{data}}(x)} \left\lbrack \text{Tr}(\nabla_x s_\phi(x)) + \frac{1}{2} \| s_\phi(x) \|_2^2 \right\rbrack \tag{9}]</div>
+
+[tex: \mathcal{L}_{\text{SM}}(\phi) = \tilde{\mathcal{L}}_{\text{SM}}(\phi) + C]（[tex: C] は [tex: \phi] に依存しない定数）が成り立ち、最小化子は [tex: s^*(\cdot) = \nabla_x \log p(\cdot)] で与えられる。この目的関数は分配関数を消去し、学習中にモデルからのサンプリングも不要とする。
+
+**直感的理解
+
+式(9)の2つの項はそれぞれ明確な物理的役割を持つ：
+
+-<b>ノルム項</b> [tex: \frac{1}{2}\|s_\phi(x)\|^2]：期待値が [tex: p_{\text{data}}] のもとで取られるため、データ密度が高い領域でスコアを [tex: 0] に近づける → これらの領域を<b>定常点</b>にする
+-<b>ダイバージェンス項</b> [tex: \text{Tr}(\nabla_x s_\phi(x))]：負の値を促進 → 定常点を<b>引き込み点</b>（sink）にする
+
+物理学的に言い換えよう。[tex: s_\phi = \nabla_x u] とポテンシャル [tex: u] の勾配場と仮定すると、ダイバージェンス項はヘッシアン [tex: \nabla_x^2 u] のトレースに等しい。定常点 [tex: x_*]（[tex: s_\phi(x_*) = 0]）において、2次のテイラー展開から：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle u(x) = u(x_*) + \frac{1}{2}(x - x_*)^\top \nabla_x^2 u(x_*)(x - x_*) + o(\|x - x_*\|^2)]</div>
+
+ヘッシアン [tex: \nabla_x^2 u(x_*)] が<b>負定値</b>であれば、[tex: u] はその点で局所的に凹であり、対数密度が極大となる。すべての固有値が負であるから [tex: \text{Tr}(\nabla_x^2 u(x_*)) < 0] となり、ベクトル場は定常点に向かって収縮する。つまりスコアマッチングは、データ密度の高い場所にポテンシャルの極大値を持つ引き込みベクトル場を自動的に学習するのである。
+
+*ランジュバン動力学によるサンプリング
+
+スコア関数が学習できたとして、実際にモデル分布からサンプルを生成するにはどうすればよいか。ここで登場するのが、物理学者にとって馴染み深い<b>ランジュバン動力学</b>である。
+
+**離散時間ランジュバン動力学
+
+離散時間の更新則は以下で与えられる：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle x_{n+1} = x_n + \eta \nabla_x \log p_\phi(x_n) + \sqrt{2\eta} \, \epsilon_n, \quad \epsilon_n \sim \mathcal{N}(0, I) \tag{10}]</div>
+
+ここで [tex: x_0] は適当な初期分布（通常はガウス分布）から初期化され、[tex: \eta > 0] はステップサイズ、[tex: \epsilon_n] はガウスノイズである。スコア関数がサンプルを高密度領域に導き、ノイズ項が局所解への閉じ込めを防ぐ確率的な揺らぎを提供する。
+
+**連続時間ランジュバンSDE
+
+ステップサイズ [tex: \eta \to 0] の極限では、離散更新は次の<b>確率微分方程式</b>（Langevin SDE）に収束する：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle dx(t) = \nabla_x \log p_\phi(x(t)) \, dt + \sqrt{2} \, dw(t) \tag{11}]</div>
+
+ここで [tex: w(t)] は標準ブラウン運動（ウィーナー過程）であり、離散更新則(10)はこの連続SDEのオイラー・丸山近似に相当する。標準的な正則性条件のもと（[tex: p_\phi \propto e^{-E_\phi}] で [tex: E_\phi] が十分滑らかな閉じ込めポテンシャルの場合）、[tex: x(t)] の分布は [tex: t \to \infty] で [tex: p_\phi] に<b>指数的に速く</b>収束する。
+
+**物理的直感：エネルギーランドスケープの探索
+
+ニュートン力学において、エネルギー関数 [tex: E_\phi(x)] が定義するポテンシャルランドスケープ上の粒子運動はODE（常微分方程式）で記述される：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle dx(t) = -\nabla_x E_\phi(x(t)) \, dt]</div>
+
+これは粒子を決定論的にエネルギー極小点に導くが、局所解に捕捉されてしまう。ランジュバン動力学は<b>確率的摂動</b>を導入する：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle dx(t) = -\nabla_x E_\phi(x(t)) \, dt + \underbrace{\sqrt{2} \, dw(t)}_{\text{注入ノイズ}} \tag{12}]</div>
+
+ノイズ項により粒子はエネルギー障壁を越えることが可能となり、定常分布は<b>ボルツマン分布</b>
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle p_\phi(x) \propto e^{-E_\phi(x)}]</div>
+
+に収束する。EBMの文脈において、ランジュバンサンプリングが特に有用なのは、<b>分配関数を明示的に計算することなく</b>モデル分布からのサンプル生成を可能にするためである。
+
+**ランジュバンサンプリングの課題
+
+ランジュバン動力学はMCMCベースのサンプラーとして広く使われるが、高次元空間では深刻な限界に直面する：
+
+-ステップサイズ [tex: \eta]、ノイズスケール、反復回数の選択に効率が大きく依存する
+-複雑な分布における<b>混合時間</b>（mixing time）の問題：多くの孤立したモード間の遷移に極めて長い時間を要する
+-次元の増加とともに収束が禁止的に遅くなる
+
+物理学的に言えば、多数の遠く離れた谷を持つ広大で起伏のあるエネルギーランドスケープを探索するようなものであり、局所的な確率的更新に頼るランジュバン動力学は、これらの谷の間を効率的に行き来することが困難である。この非効率性は、より構造化されたサンプリング手法の必要性を示唆している——これがまさに拡散モデルが解決する課題である。
+
+*まとめと展望
+
+本記事では、拡散モデルの数学的基礎を統計力学の視点から追ってきた。議論をまとめると：
+
++<b>KLダイバージェンスと最尤推定</b>：データ分布とモデル分布の乖離度の最小化は最尤推定と等価（式(2)）
++<b>エネルギーベースモデル</b>：ボルツマン分布の形で確率密度を定義するが、分配関数の計算が困難
++<b>スコア関数</b>：対数密度の勾配であり、正規化定数に依存しない——EBMの困難を解消する鍵（式(7)）
++<b>スコアマッチング</b>：部分積分によりデータサンプルのみで学習可能（式(9)）
++<b>ランジュバン動力学</b>：スコア関数を用いてボルツマン分布からサンプリングする物理的手法（式(11)）
+
+この流れは、<b>EBMからスコアベースモデルへの移行</b>として理解できる。エネルギー関数を学習するのではなく、スコア関数を直接学習することで分配関数の問題を完全に回避し、ランジュバン動力学を用いてサンプルを生成する。これがスコアベース生成モデルの核心的アイデアである。
+
+そして拡散モデルは、このスコアベースの枠組みに<b>ノイズスケジュール</b>を導入し、多段階のノイズ除去プロセスとして洗練されたものである。高次元におけるランジュバンサンプリングの混合時間の問題を、段階的なノイズレベルの制御によって解決する——これが拡散モデルの本質的な貢献である。
+
+次回は、ここで構築した基礎の上に、DDPMの定式化と確率微分方程式による統一的理解について解説する予定である。
+
+**参考文献
+
+-Luo, C. (2025). <i>The Principles of Diffusion Models.</i> arXiv.
+-Hinton, G. E. (2002). Training products of experts by minimizing contrastive divergence. <i>Neural Computation</i>.
+-Hyvärinen, A. and Dayan, P. (2005). Estimation of non-normalized statistical models by score matching. <i>JMLR</i>.
