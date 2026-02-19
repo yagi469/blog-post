@@ -1,0 +1,130 @@
+[接ベクトル束 (Tangent Bundle) 入門 ― Nakahara "Geometry, Topology and Physics" 9.1節を読む]
+
+*はじめに
+
+微分幾何学における<b>ファイバー束 (Fibre Bundle)</b> の理論は、ゲージ理論や一般相対性理論など現代物理学の基盤をなす数学的枠組みです。しかし、その一般的な定義はかなり抽象的で、初学者にはとっつきにくいものがあります。
+
+中原幹夫 (Mikio Nakahara) の名著 "Geometry, Topology and Physics" では、ファイバー束の概念を導入するにあたり、まず最も身近な例である<b>接ベクトル束 (Tangent Bundle)</b> を「動機づけとなる例」として丁寧に解説しています。この記事では、同書の9.1節の内容に沿って、接ベクトル束の定義、局所自明性、構造群、断面（ベクトル場）といった概念を数式を交えて解説します。
+
+*接ベクトル束の定義
+
+[tex: m] 次元多様体 [tex: M] を考えます。各点 [tex: p \in M] には接空間 [tex: T_p M] が付随しています。<b>接ベクトル束 (Tangent Bundle)</b> [tex: TM] は、これらすべての接空間を集めた空間として定義されます：
+
+<div align="center">
+[tex: \displaystyle TM \equiv \bigcup_{p \in M} T_p M]
+</div>
+
+直感的に言えば、[tex: TM] は「多様体 [tex: M] の各点に、その点における速度ベクトルの空間をくっつけた空間」です。
+
+ここで [tex: M] は<b>底空間 (base space)</b>、各点の接空間 [tex: T_p M \cong \mathbb{R}^m] は<b>ファイバー (fibre)</b> と呼ばれます。
+
+*局所自明性：束の「ほどき方」
+
+ファイバー束の本質は、大域的には複雑な構造を持ちうるが、<b>局所的には直積空間に同一視できる</b>という点にあります。これを<b>局所自明性 (local triviality)</b> と呼びます。
+
+[tex: M] の開被覆 [tex: \{U_i\}] を取り、座標 [tex: x^\mu = \varphi_i(p)] を導入します。[tex: U_i] 上の接ベクトル束の部分 [tex: TU_i] は以下のように定義されます：
+
+<div align="center">
+[tex: \displaystyle TU_i \equiv \bigcup_{p \in U_i} T_p M]
+</div>
+
+[tex: TU_i] の元は、点 [tex: p \in U_i] とベクトル [tex: V \in T_p M] のペアで指定されます。ベクトルは座標基底で以下のように展開できます：
+
+<div align="center">
+[tex: \displaystyle V = V^\mu(p) \frac{\partial}{\partial x^\mu}\bigg|_p]
+</div>
+
+したがって、[tex: TU_i] の元は座標のペア [tex: (x^\mu(p), V^\mu(p))] で完全に指定され、[tex: TU_i] は直積空間と同一視できます：
+
+<div align="center">
+[tex: \displaystyle TU_i \cong U_i \times \mathbb{R}^m]
+</div>
+
+[tex: U_i] が [tex: m] 次元、ファイバー [tex: \mathbb{R}^m] も [tex: m] 次元なので、[tex: TU_i] は <b>[tex: 2m] 次元の微分可能多様体</b>になります。
+
+*射影と断面
+
+**射影 (Projection)
+自然な<b>射影 (projection)</b> [tex: \pi: TM \to M] を定義できます。局所的には、任意の [tex: u \in TU_i] に対して：
+
+<div align="center">
+[tex: \displaystyle \pi(u) = p]
+</div>
+
+ここで [tex: p] はベクトル [tex: u] が定義されている [tex: U_i] 上の点です。射影によってベクトルの情報は失われ、底空間の点だけが取り出されます。この射影は座標系の選び方に依存せず、大域的に定義されます。
+
+点 [tex: p] の逆像 [tex: \pi^{-1}(p) = T_p M] が、点 [tex: p] における<b>ファイバー</b>です。
+
+**断面 (Section) ＝ ベクトル場
+射影の逆を考えましょう。多様体の各点にベクトルを対応させる写像、すなわち<b>ベクトル場</b> [tex: X \in \mathcal{X}(M)] は、接ベクトル束の<b>断面 (section, cross section)</b> として定式化されます。
+
+形式的に、断面 [tex: s: M \to TM] は滑らかな写像であり、以下の条件を満たします：
+
+<div align="center">
+[tex: \displaystyle \pi \circ s = \mathrm{id}_M]
+</div>
+
+この条件は「[tex: s] で持ち上げた後に射影 [tex: \pi] で落としたら、元の点に戻る」ことを言っています。つまり、各点 [tex: p] に対して [tex: s(p) \in T_p M] であることを保証しています。
+
+断面が特定のチャート [tex: U_i] 上でのみ定義されている場合、これを<b>局所断面 (local section)</b> と呼びます。
+
+*遷移関数と構造群
+
+ファイバー束の構造において最も重要な概念が<b>遷移関数 (transition function)</b> と<b>構造群 (structure group)</b> です。
+
+**座標変換がファイバーを「回転」させる
+2つのチャート [tex: U_i] と [tex: U_j] が重なっている領域 [tex: U_i \cap U_j \neq \emptyset] を考えます。それぞれの座標を [tex: x^\mu], [tex: y^\nu] とします。同一のベクトル [tex: V \in T_p M] は、2つの座標系でそれぞれ異なる成分表示を持ちます：
+
+<div align="center">
+[tex: \displaystyle V = V^\mu \frac{\partial}{\partial x^\mu}\bigg|_p = \tilde{V}^\nu \frac{\partial}{\partial y^\nu}\bigg|_p]
+</div>
+
+これらの成分は、座標変換のヤコビアンによって関係付けられます：
+
+<div align="center">
+[tex: \displaystyle \tilde{V}^\nu = \frac{\partial y^\nu}{\partial x^\mu}(p) \, V^\mu]
+</div>
+
+この式が遷移関数の具体例です。座標変換に伴って、ファイバーの座標（ベクトルの成分）が線形変換を受けるのです。
+
+**構造群 [tex: GL(m, \mathbb{R})]
+座標系が有効であるためには、ヤコビ行列
+
+<div align="center">
+[tex: \displaystyle G^\nu{}_\mu \equiv \frac{\partial y^\nu}{\partial x^\mu}]
+</div>
+
+が<b>非退化 (non-singular)</b> でなければなりません。つまり、この行列は<b>一般線形群</b> [tex: GL(m, \mathbb{R})] に属します。
+
+この [tex: GL(m, \mathbb{R})] が、接ベクトル束 [tex: TM] の<b>構造群 (structure group)</b> です。構造群は、座標変換の際にファイバーの座標を「回転」させる役割を果たします。ファイバー束が「ねじれて」いるかどうかは、この遷移関数がどれだけ非自明かによって決まります。
+
+*具体例で理解する
+
+**[tex: \mathbb{R}^n] の接ベクトル束
+最も単純な例として、[tex: M = \mathbb{R}^n] を考えましょう。[tex: \mathbb{R}^n] は1つの座標系で覆えるため、座標変換が不要です。したがって遷移関数は恒等変換となり、接ベクトル束は大域的に自明です：
+
+<div align="center">
+[tex: \displaystyle T\mathbb{R}^n \cong \mathbb{R}^n \times \mathbb{R}^n]
+</div>
+
+**球面 [tex: S^2] の接ベクトル束
+一方、2次元球面 [tex: S^2] は1つのチャートでは覆えません。北極と南極を除いた2つのチャート（ステレオ投影）が必要で、重なり部分での遷移関数は非自明になります。実は [tex: TS^2] は自明束ではありません。これは「毛玉定理 (Hairy Ball Theorem)」として知られ、「[tex: S^2] 上に消えない連続的なベクトル場は存在しない」ことを意味します。つまり、大域的な断面が存在しないのです。
+
+*まとめ：ファイバー束の一般論への架け橋
+
+接ベクトル束を通じて、ファイバー束の5つの基本的構成要素が見えてきます：
+
+|*要素|*接ベクトル束での実現|
+|底空間 [tex: M]|多様体 [tex: M]|
+|全空間 [tex: E]|接ベクトル束 [tex: TM]|
+|ファイバー [tex: F]|接空間 [tex: T_p M \cong \mathbb{R}^m]|
+|射影 [tex: \pi]|[tex: \pi: TM \to M], [tex: \pi(p, V) = p]|
+|構造群 [tex: G]|[tex: GL(m, \mathbb{R})]|
+
+9.2節以降では、これらの要素を抽象化し、一般のファイバー束の定義（局所自明化、遷移関数の整合条件（コサイクル条件）など）が展開されます。そして主束 (principal bundle)、接続 (connection)、曲率 (curvature) といった概念へと進んでいきます。
+
+接ベクトル束という「最も身近な仲間」を通じてファイバー束の全体像を掴むことが、この壮大な理論への最良の第一歩と言えるでしょう。
+
+---
+<b>参考文献</b>:
+Nakahara, M. (2003). <i>Geometry, Topology and Physics</i> (2nd ed.). Taylor & Francis. Chapter 9, Section 9.1.
