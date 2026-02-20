@@ -1,0 +1,274 @@
+<!--
+title: 【微分幾何学】接線バンドル入門 ― Nakaharaで学ぶファイバー束の第一歩
+category: 数学, 物理学
+date: 2026-02-20
+draft: true
+-->
+
+Nakahara "Geometry, Topology and Physics" の第9.1節をもとに、ファイバー束の導入的な例である<b>接線バンドル（tangent bundle）</b>を解説する。多様体が局所的に [tex: \mathbb{R}^m] に見えるのと同様に、ファイバー束は局所的に2つの位相空間の直積に見える。
+
+[:contents]
+
+*接線バンドルの定義
+
+[tex: m] 次元多様体 [tex: M] 上の<b>接線バンドル</b> [tex: TM] は、すべての点の接空間を集めたものである。
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle TM \equiv \bigcup_{p \in M} T_pM]</div>
+
+チャート [tex: U_i] に制限したものが：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle TU_i \equiv \bigcup_{p \in U_i} T_pM]</div>
+
+*[tex: TU_i] の元：点とベクトルのペア
+
+[tex: TU_i] の元 [tex: u] は以下の<b>2つの情報</b>で決まる：
+
+-<b>点</b> [tex: p \in U_i]（多様体上のどこか）
+-<b>ベクトル</b> [tex: V \in T_pM]（その点での接ベクトル）
+
+すなわち [tex: u = (p, V)] というペアである。
+
+*同一視 [tex: (p, V) \mapsto (x^\mu, V^\mu)]
+
+**Step 1: 点 [tex: p] を数にする（チャート写像 [tex: \varphi_i]）
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle p \xmapsto{\varphi_i} \bigl(x^1(p),\; x^2(p),\; \ldots,\; x^m(p)\bigr) \in \mathbb{R}^m]</div>
+
+**Step 2: ベクトル [tex: V] を数にする（座標基底で展開）
+
+チャートから自然に定まる座標基底 [tex: \left\{\frac{\partial}{\partial x^\mu}\big|_p\right\}] でベクトルを展開する：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle V = V^\mu \frac{\partial}{\partial x^\mu}\bigg|_p = V^1 \frac{\partial}{\partial x^1}\bigg|_p + V^2 \frac{\partial}{\partial x^2}\bigg|_p + \cdots + V^m \frac{\partial}{\partial x^m}\bigg|_p]</div>
+
+成分 [tex: (V^1, V^2, \ldots, V^m) \in \mathbb{R}^m] がベクトルの数値表現である。
+
+**Step 3: 合わせて同一視
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle (p, V) \;\longmapsto\; \bigl(\underbrace{x^1, \ldots, x^m}_{p \text{ の座標}},\; \underbrace{V^1, \ldots, V^m}_{V \text{ の成分}}\bigr) \in \mathbb{R}^m \times \mathbb{R}^m]</div>
+
+>>
+<b>ポイント</b>: チャート [tex: \varphi_i] を1つ選べば、点の座標もベクトルの成分も両方決まる。だから [tex: TU_i \cong \mathbb{R}^m \times \mathbb{R}^m] は [tex: 2m] 次元の多様体。
+<<
+
+**「同一視」とは何をしているのか？
+
+この同一視は、<b>「抽象的な幾何学的オブジェクト」を「具体的な数の組」に翻訳する</b>写像である。
+
+出発点となるペア [tex: (p, V)] は、この時点ではまだ抽象的な存在である：
+
+-[tex: p] は多様体上の<b>抽象的な「点」</b>（まだ数字ではない）
+-[tex: V] は [tex: T_pM] の中の<b>抽象的な「矢印」</b>（まだ数字ではない）
+
+チャート写像 [tex: \varphi_i] を1つ選ぶと、この2つが同時に数値化される：
+
+|*操作|*入力|*出力|*使うもの|
+|点を数値化|抽象的な点 [tex: p]|[tex: (x^1, \ldots, x^m) \in \mathbb{R}^m]|チャート写像 [tex: \varphi_i]|
+|ベクトルを数値化|抽象的なベクトル [tex: V]|[tex: (V^1, \ldots, V^m) \in \mathbb{R}^m]|[tex: \varphi_i] が誘導する座標基底 [tex: \partial/\partial x^\mu]|
+
+ここで重要なのは、<b>ベクトルの成分 [tex: V^\mu] もチャート [tex: \varphi_i] によって決まる</b>という点である。チャートが座標 [tex: x^\mu] を定めると、それに伴って座標基底 [tex: \partial/\partial x^\mu|_p] が自然に定まり、ベクトル [tex: V] の展開係数 [tex: V^\mu] も自動的に決まる。つまり、<b>チャートを1つ選ぶという1回の操作で、[tex: 2m] 個の実数がすべて確定する</b>。
+
+**具体例：2次元球面 [tex: S^2]
+
+[tex: m = 2] の場合を考える。球面上のチャート [tex: U_i] に球面座標 [tex: (\theta, \phi)] を用いるとする。
+
+<b>点の座標化：</b>
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle p \xmapsto{\varphi_i} (\theta(p),\; \phi(p)) \in \mathbb{R}^2]</div>
+
+例えば、北緯45度・東経90度の点なら [tex: (\theta, \phi) = (\pi/4,\; \pi/2)]。
+
+<b>ベクトルの成分化：</b>
+
+座標基底は [tex: \left\{\frac{\partial}{\partial \theta}\big|_p,\; \frac{\partial}{\partial \phi}\big|_p\right\}] であり、接ベクトル [tex: V] は：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle V = V^\theta \frac{\partial}{\partial \theta}\bigg|_p + V^\phi \frac{\partial}{\partial \phi}\bigg|_p]</div>
+
+例えば、「北向きに3、東向きに2」のベクトルなら [tex: (V^\theta, V^\phi) = (3, 2)]。
+
+<b>同一視の結果：</b>
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle (p, V) \;\longmapsto\; (\underbrace{\pi/4,\; \pi/2}_{\text{点の座標}},\; \underbrace{3,\; 2}_{\text{ベクトルの成分}}) \in \mathbb{R}^2 \times \mathbb{R}^2]</div>
+
+このように、幾何的な [tex: (p, V)] が4つの実数に対応する。[tex: TU_i] は [tex: 2 \times 2 = 4] 次元の多様体。
+
+>>
+<b>まとめ：</b> 「同一視」とは、チャート [tex: \varphi_i] を使って抽象的な幾何を [tex: \mathbb{R}^{2m}] の具体的な数に翻訳する操作であり、これにより [tex: TU_i] は [tex: \mathbb{R}^m \times \mathbb{R}^m] と同一視できる。ただし、この翻訳はチャートに依存するため、チャートを変えれば数値表現も変わる（→ 遷移関数の話に繋がる）。
+<<
+
+*射影写像（Projection Map）
+
+大域的に定義される射影写像：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \pi: TM \longrightarrow M, \quad \pi(p, V) = p]</div>
+
+-ペア [tex: (p, V)] から点 [tex: p] だけを取り出す
+-ファイバー：[tex: \pi^{-1}(p) = T_pM]（点 [tex: p] での接空間全体）
+
+**「[tex: M] 上で大域的に定義される」とは？
+
+「大域的に定義される」とは、<b>[tex: M] のどの点 [tex: p] に対しても、特定のチャート（座標系）を選ばずに [tex: \pi] が一意に定まる</b>ということである。
+
+***なぜ [tex: \pi] はチャートに依存しないのか
+
+[tex: \pi] の定義を改めて見ると：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \pi(p, V) = p]</div>
+
+この操作は「ペアの第1成分を取り出す」だけであり、座標 [tex: x^\mu] や成分 [tex: V^\mu] を一切使っていない。点 [tex: p] もベクトル [tex: V] も、座標を導入する前から多様体上に存在する<b>内在的な幾何学的オブジェクト</b>であり、[tex: \pi] はそれらの間の純粋に幾何学的な対応を記述している。
+
+したがって、[tex: \pi] はどのチャート [tex: U_i] の上でも同じように機能し、チャートの境界をまたいでも矛盾が生じない。
+
+***対比：局所的にしか定義されないもの
+
+一方、ベクトルの<b>成分</b> [tex: V^\mu] はチャートに依存する局所的な量である：
+
+|*量|*大域的？|*理由|
+|点 [tex: p \in M]|✅ 大域的|座標によらず存在する幾何学的対象|
+|ベクトル [tex: V \in T_pM]|✅ 大域的|座標によらず存在する幾何学的対象|
+|射影 [tex: \pi(p,V) = p]|✅ 大域的|座標を使わない純粋に幾何学的な操作|
+|成分 [tex: V^\mu]|❌ 局所的|チャート [tex: U_i] の座標基底に依存する|
+|同一視 [tex: (p,V) \mapsto (x^\mu, V^\mu)]|❌ 局所的|チャート [tex: \varphi_i] の選び方に依存する|
+
+>>
+<b>要点：</b> [tex: \pi] は「どの接ベクトルがどの点に付いているか」を返す操作であり、これは座標の選び方に一切依存しない。だから [tex: M] 全体で矛盾なく定義できる（＝大域的）。
+<<
+
+**確認：[tex: \pi^{-1}(p) = T_pM]
+
+[tex: \pi^{-1}(p)] は<b>逆像</b>（<b>inverse image</b>）であり、「[tex: \pi] によって [tex: p] に写される [tex: TM] の元をすべて集めた集合」のことである。
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \pi^{-1}(p) = \{ u \in TM \mid \pi(u) = p \}]</div>
+
+これが [tex: T_pM] と一致することを、以下の3ステップで確認する。
+
+<b>Step 1.</b> [tex: TM] の元の構造を思い出す。
+
+[tex: TM = \displaystyle\bigcup_{q \in M} T_qM] であるから、[tex: TM] の任意の元 [tex: u] は、ある点 [tex: q \in M] とベクトル [tex: V \in T_qM] の組 [tex: u = (q, V)] と書ける。
+
+<b>Step 2.</b> [tex: \pi(u) = p] となる条件を調べる。
+
+射影の定義 [tex: \pi(q, V) = q] より：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \pi(u) = p \iff q = p]</div>
+
+つまり、[tex: \pi(u) = p] となるのは [tex: u] の基点が [tex: p] である場合に限る。
+
+<b>Step 3.</b> 逆像を求める。
+
+[tex: q = p] と固定すると、[tex: u = (p, V)] の中で自由に動けるのはベクトル [tex: V \in T_pM] だけである。[tex: V] は [tex: T_pM] のすべてのベクトルを取り得るから：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \pi^{-1}(p) = \{ (p, V) \mid V \in T_pM \} = T_pM \quad \square]</div>
+
+>>
+<b>直感的理解：</b> [tex: \pi] は「どの点の接空間に属しているか」を教える写像である。逆に、特定の点 [tex: p] を指定してその逆像を取ると、「[tex: p] の接空間に属するすべてのベクトル」が集まる。これがまさに [tex: T_pM] である。
+<<
+
+*遷移関数と構造群
+
+チャートの重なり [tex: U_i \cap U_j] で座標が [tex: x^\mu \to y^\mu] と変わるとき、ベクトルの成分は：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \tilde{V}^\nu = \frac{\partial y^\nu}{\partial x^\mu} V^\mu]</div>
+
+このヤコビ行列 [tex: \left(\frac{\partial y^\nu}{\partial x^\mu}\right)] が<b>遷移関数</b>であり、これは正則行列なので [tex: GL(m, \mathbb{R})] の元。
+
+>>
+[tex: GL(m, \mathbb{R})] が接線バンドルの<b>構造群（structure group）</b>。
+<<
+
+**補足：非特異であることと [tex: GL(m, \mathbb{R})] の元であること
+
+***[tex: GL(m, \mathbb{R})] の定義
+
+一般線型群 [tex: GL(m, \mathbb{R})] は以下のように定義される：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle GL(m, \mathbb{R}) \equiv \{ A \in \mathrm{Mat}(m \times m,\, \mathbb{R}) \mid \det A \neq 0 \}]</div>
+
+すなわち、<b>[tex: m \times m] の実行列のうち行列式がゼロでないもの全体</b>の集合である。
+
+線形代数の基本定理により、以下はすべて同値である：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \text{行列 } A \text{ が非特異（正則）} \iff \det A \neq 0 \iff A^{-1} \text{ が存在する}]</div>
+
+したがって、<b>「非特異であること」と「[tex: GL(m, \mathbb{R})] の元であること」は同値</b>である。
+
+***なぜヤコビ行列は非特異なのか？
+
+座標変換 [tex: x^\mu \to y^\nu] が「良い座標変換」であるためには、<b>逆変換 [tex: y^\nu \to x^\mu] が存在しなければならない</b>（微分同相写像である必要がある）。
+
+逆関数定理により：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \text{座標変換が局所的に可逆} \iff \det\left(\frac{\partial y^\nu}{\partial x^\mu}\right) \neq 0]</div>
+
+もし [tex: \det = 0] なら、変換先で座標が「つぶれて」しまい、独立な座標系として機能しない。多様体の定義上、チャート間の遷移写像は微分同相であることが要求されるため、ヤコビ行列の行列式は必ずゼロでない。
+
+***構造群としての意味
+
+チャートを [tex: U_i] から [tex: U_j] に変えるたびに、接ベクトルの成分はヤコビ行列で線形に変換される：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \tilde{V}^\nu = \underbrace{\frac{\partial y^\nu}{\partial x^\mu}}_{\in\, GL(m,\,\mathbb{R})} V^\mu]</div>
+
+ファイバー束の言葉では、チャートを切り替えるたびに<b>ファイバーの「座標」が [tex: GL(m, \mathbb{R})] の元で回される</b>。この「回し方」を支配する群が<b>構造群</b>であり、接線バンドルの場合は [tex: GL(m, \mathbb{R})] がその役割を果たす。
+
+*切断（Section）＝ ベクトル場
+
+**切断の定義
+
+接線バンドル [tex: TM] の<b>切断</b>（<b>section</b> または <b>cross section</b>）とは、滑らかな写像
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle s: M \longrightarrow TM]</div>
+
+であって、以下の条件を満たすものをいう：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \pi \circ s = \mathrm{id}_M]</div>
+
+**[tex: \pi \circ s = \mathrm{id}_M] は何を意味するのか？
+
+この条件を具体的に追いかけてみよう。任意の点 [tex: p \in M] に対して：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle (\pi \circ s)(p) = \pi(s(p)) = p]</div>
+
+[tex: s(p)] は [tex: TM] の元であるから、これはあるペア [tex: (q, V)]（点 [tex: q] と接ベクトル [tex: V \in T_qM]）である。射影は [tex: \pi(q, V) = q] であったから：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle \pi(s(p)) = q = p]</div>
+
+つまり、<b>[tex: s] が点 [tex: p] に割り当てるベクトルは、必ず点 [tex: p] 自身の接空間 [tex: T_pM] に属していなければならない</b>。
+
+この条件がないと、[tex: s] は点 [tex: p] に対して別の点 [tex: q \neq p] の接ベクトルを割り当てることもできてしまう。[tex: \pi \circ s = \mathrm{id}_M] は「割り当てるベクトルが正しい点に付いている」ことを保証する制約である。
+
+図式的に書くと：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle p \xrightarrow{s} \underbrace{(p,\, V(p))}_{\in\, TM} \xrightarrow{\pi} p]</div>
+
+[tex: s] で [tex: TM] に持ち上げて、[tex: \pi] で射影して戻ると、元の点 [tex: p] に戻る。
+
+**なぜベクトル場は切断なのか
+
+多様体上の<b>ベクトル場</b> [tex: X] とは、各点 [tex: p \in M] に接ベクトル [tex: X|_p \in T_pM] を滑らかに割り当てる操作のことである。これを写像として書くと：
+
+<div class="horizontal-scroll" align="center">[tex: \displaystyle X: M \longrightarrow TM, \quad p \longmapsto (p,\, X|_p)]</div>
+
+この写像は [tex: \pi \circ X = \mathrm{id}_M] を自動的に満たす（各点 [tex: p] に [tex: T_pM] のベクトルを割り当てているから）。
+
+>>
+<b>ベクトル場 ＝ 接線バンドルの切断</b>
+<<
+
+逆に、[tex: \pi \circ s = \mathrm{id}_M] を満たす任意の滑らかな写像 [tex: s: M \to TM] は、各点 [tex: p] にベクトル [tex: s(p) \in T_pM] を割り当てるので、ベクトル場を定める。つまり<b>両者は完全に同じもの</b>である。
+
+**大域的切断 vs 局所的切断
+
+|*種類|*定義域|*意味|
+|<b>大域的切断</b>|[tex: s: M \to TM]|多様体 [tex: M] <b>全体</b>で定義されたベクトル場|
+|<b>局所的切断</b>|[tex: s_i: U_i \to TU_i]|チャート [tex: U_i] の上だけで定義されたベクトル場|
+
+大域的な切断は常に存在するとは限らない。例えば、[tex: S^2]（2次元球面）ではゼロでない大域的ベクトル場は存在しない（<b>毛玉定理 / Hairy Ball Theorem</b>）。これはファイバー束のトポロジーが非自明である場合に起こる現象であり、接線バンドルの大域的な構造が局所的な構造（直積）とは異なることを示す重要な例である。
+
+*まとめ
+
+|*用語|*意味|
+|基底空間（base space）|[tex: M]|
+|全空間（total space）|[tex: TM]|
+|ファイバー（fibre）|[tex: T_pM \cong \mathbb{R}^m]|
+|射影（projection）|[tex: \pi: TM \to M]|
+|構造群（structure group）|[tex: GL(m, \mathbb{R})]|
+|切断（section）|ベクトル場 [tex: s: M \to TM]|
